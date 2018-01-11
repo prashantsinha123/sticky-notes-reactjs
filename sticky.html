@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="react.min.js"></script>
+	<script src="react-dom.min.js"></script>
+	<script src="browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+/*
+
+	var Bacon=React.createClass({
+		render: function(){
+			return(
+			<div><h2>{this.props.names}</h2>
+			<p>{this.props.names} has {this.props.components}</p>
+			</div>
+
+
+);
+
+}
+});
+
+	ReactDOM.render(<div>
+		<Bacon names="Prashant" components="laptop"/>
+		<Bacon names="Manish" components="nokia"/>
+		<Bacon names="Nikhil" components="iphone"/>
+			</div>
+		,document.getElementById('example'));
+
+*/
+	var Comment=React.createClass({
+		getInitialState: function(){
+			return {editing:false}			
+	},
+
+		edit: function(){
+			return this.setState({editing:true})
+			
+},
+		remove: function(){
+			this.props.deleteComment(this.props.index);		//handling the deleteComment property of Board
+},
+
+		save: function(){
+			
+			this.props.editCommentBoard(this.refs.newtext.value,this.props.index);	//handling the editCommentBoard property of Board
+			return	this.setState({editing:false});
+
+
+},
+
+		renderNormal: function(){
+			return (<div>
+				<div>{this.props.children}</div>
+				<button className="btn btn-primary" onClick={this.edit}>Edit</button>
+				<button className="btn btn-danger" onClick={this.remove}>Remove</button>
+				</div>);
+
+},
+		renderForm: function(){
+				return (<div>
+				<textarea ref="newtext" defaultValue={this.props.children}></textarea><br/>
+				<button className="btn btn-success" onClick={this.save}>Save</button>
+				
+				</div>);
+
+},
+
+		render: function(){
+			
+				if(this.state.editing){
+					return this.renderForm();				
+				}else{
+				return this.renderNormal();
+}
+}
+});
+
+
+
+
+var Board=React.createClass({
+	getInitialState: function(){
+		return{
+			comments:[
+			
+]
+
+}		
+}
+,
+		addText: function(text){
+			var a=this.state.comments;
+			a.push(text);
+			this.setState({comments:a})
+
+}
+,
+		removeComment: function(i){
+			var a=this.state.comments;
+			a.splice(i,1);		//for deleting one element 1 is passed
+			this.setState({comments:a})
+},
+
+			editComment: function(text,i){
+			var a=this.state.comments;
+			a[i]=text;	
+			this.setState({comments:a})
+},
+
+			eachComment: function(text,i){
+				return (
+		<Comment key={i} index={i} editCommentBoard={this.editComment} deleteComment={this.removeComment}  >{text} </Comment>
+);
+},
+
+		render: function(){
+			return (
+			<div>
+				<div>
+				<button onClick={this.addText.bind(null,"default text")} className="btn btn-primary">Add New</button>
+				{this.state.comments.map(this.eachComment)
+
+//key is used to uniquely identify each comments the manager is having full control with this,whereas refs is used by the elements locally.With key now it is possible for Board(manager) to manipulate all the comments.E.g sorting,etc.index is used for keeping track as key does.editCommentBoard and deleteComment is the name of property that will be handled by buttons in Comment component.
+		
+}
+				</div>
+			</div>
+);
+},
+
+});
+
+				ReactDOM.render(<Board/>,document.getElementById("example")
+);
+/*
+
+				var Check=React.createClass({
+
+				getInitialState: function(){
+				return{checkedeeee:false}
+},
+
+				handleChecked: function(){
+					this.setState({checkedeeee: !this.state.checkedeeee})      //! means the offset 
+
+},
+
+
+				render: function(){
+				var msg;
+				if(this.state.checkedeeee){
+				msg='checked'
+				}else{msg='unchecked'
+}
+
+				return(
+				<div>
+				<input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checkedeeee} />
+				<h2>checkbox is {msg}</h2>
+
+				</div>
+);
+
+
+}
+
+
+});
+
+				ReactDOM.render(<Check/>, document.getElementById('example'));*/
+</script>
+
+</body>
+</html>
+
